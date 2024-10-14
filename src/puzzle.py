@@ -1,5 +1,10 @@
 import random as rd
 import time
+from prometheus_client import Counter
+
+graphs = {}
+graphs['c'] = Counter('python_request_operations_total', 'The total number of processed requests')
+graphs['m'] = Counter('game_moves_total', 'The total number of move')
 
 class puzzle:
     '''
@@ -7,6 +12,7 @@ class puzzle:
     y sus componentes internos
     '''
     def __init__(self):
+        graphs['c'].inc()
         '''
         Constructor
         atributos: 
@@ -89,9 +95,9 @@ class puzzle:
             self.position += 1
 
         
-    def increase_move(self,movement):
-        if self.verify_move(self.position, movement):
-            self.cont_move+=1
+    def increase_move(self):
+        graphs['m'].inc()
+        self.cont_move+=1
 
     def is_solved(self):
         for i in range(15):
