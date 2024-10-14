@@ -54,6 +54,7 @@ class puzzle:
         '''
         row = self.position // 4
         col = self.position % 4
+        self.cont_move = 0
 
         if direction == 'up':
             if row == 0: 
@@ -86,6 +87,21 @@ class puzzle:
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
 
+    def verify_move(self, curr_position, movement):
+        if (self.movement=='up'or self.movement=='down'):
+            return True
+        
+    def increase_move(self,movement):
+        if self.verify_move(self.position, movement):
+            self.cont_move+=1
+
+    def is_solved(self):
+        solvedArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
+        
+        currentArray = [cell for row in self.board for cell in row]
+
+        return currentArray == solvedArray
+
     def display_console(self):
         '''
         Escribe en la consola el estado del tablero
@@ -99,5 +115,6 @@ class puzzle:
 
         print("="*20)
         
+
 
 

@@ -1,5 +1,18 @@
 # Juego de puzzles "15-Puzzle"
 
+## Estructura del proyecto 
+
+### src/
+Carpeta con los archivos del juego
+
+#### main.py
+Contiene la visualización del juego con la librería pygame
+#### puzzle.py
+Contiene la lógica del juego
+
+### tests/
+Añadiremos los tests durante el desarrollo
+
 ## Descripción:
 Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar las piezas numeradas en una cuadrícula.
 
@@ -18,7 +31,6 @@ Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar la
 • Movimiento de piezas con reglas específicas.
 
 • Verificación de la solución y conteo de movimientos.
-
 
 ## Puzzle.py
 ### Generar board
@@ -93,4 +105,5 @@ def move(self, direction):
 Ejemplo aplicando el movimiento `'up'`
 
 ![alt text](assets/Move.png)
+
 
