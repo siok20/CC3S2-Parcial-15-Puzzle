@@ -1,5 +1,6 @@
 import random
 import pygame
+from puzzle import puzzle
 
 pygame.init()   # inicializamos pygame
 
@@ -23,19 +24,22 @@ font = pygame.font.Font(None, 50)
 
 class Puzzle_15:
     def __init__(self):
-        self.board = self.generate_puzzle()
+        self.puzzle = puzzle()
+        self.board , self.position = self.generate_puzzle()
         
     def generate_puzzle(self):
-        numbers = list(range(1,16)) + [None]    #genera numeros del 1 al 15 y le añade uno vacio
+        numbers = list(range(1,16)) + [0]    #genera numeros del 1 al 15 y le añade uno vacio
         random.shuffle(numbers)
         board = []   # Almacena todas las cuadrículas
         for i in range(4):  # Itera sobre las filas
             row = []  # Crear una nueva fila vacía
             for j in range(4):  # Itera sobre las columnas
+                if numbers[i * 4 + j] == 0:
+                    position = [i,j]
                 row.append(numbers[i * 4 + j])  # Añadir el número correspondiente
             board.append(row)  # Añadir la fila a la cuadrícula
-        return board
-
+            
+            
     def display(self):
         # Recorrer cada fila en la cuadrícula
         for row in self.board:
@@ -61,7 +65,7 @@ class Puzzle_GUI:
         for row in range(BOARD_SIZE):   # recorre cada fila y columna
             for col in range(BOARD_SIZE):
                 value = self.board[row][col]    # se asigna el valor de cada casilla a value
-                if value is not None:  # excluir la casilla vacía
+                if value is not 0:  # excluir la casilla vacía
                     # dibujar la casilla con el número
                     pygame.draw.rect(screen, CELL_COLOR, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
                     text = font.render(str(value), True, NUMBER_COLOR)
@@ -98,8 +102,8 @@ def main():
 if __name__ == "__main__":
     main()
 # Uso de ejemplo
-#puzzle = Puzzle_15()
-# print(puzzle.generate_puzzle())
+puzzle = Puzzle_15()
+print(puzzle.generate_puzzle())
 #puzzle.display()
 
 
