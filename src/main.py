@@ -22,34 +22,6 @@ pygame.display.set_caption("15 Puzzle Game")
 font = pygame.font.Font(None, 50)
 
 
-class Puzzle_15:
-    def __init__(self):
-        self.puzzle = puzzle()
-        self.board , self.position = self.generate_puzzle()                   
-    
-    def is_solvable(self, board, position):
-        list_cells = []
-        count_inversions = 0
-        for i in range(len(board)):
-            if (count_inversions + self.position[0])%2 != 0:
-                return True
-        return False
-            
-    def display(self):
-        # Recorrer cada fila en la cuadrícula
-        for row in self.board:
-            # Crear una lista para almacenar los valores de la fila formateados
-            print_row = []
-            
-            #recorre cada valor de la fila
-            for val in row:
-                if val is None:
-                    print_row.append('  ')  # deja un espacio en blanco para la casilla vacia
-                else:
-                    print_row.append(f"{val:>2}")  # formatea el número para que se alinee a la derecha
-            # une los valores formateados con un separador '|' y los imprime
-            print(' | '.join(print_row))
-
 
 class Puzzle_GUI:
     def __init__(self):
@@ -78,11 +50,6 @@ def main():
     # Crear puzzle
     puzzle = Puzzle_GUI()
     
-    # Visualizar en consola
-    #print("Visualización en consola:")
-    #puzzle.display()
-    
-    # Visualización gráfica con pygame
     visualizer = puzzle.draw()
     
     #actualiza el tablero
@@ -92,14 +59,17 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.KEY == pygame.K_UP:
+                if event.key == pygame.K_UP:
                     puzzle.game.move("up")
-                if event.KEY == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN:
                     puzzle.game.move("down")
-                if event.KEY == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     puzzle.game.move("right")
-                if event.KEY == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT:
                     puzzle.game.move("left")
+                
+                puzzle.game.display_console()
+        
         visualizer = puzzle.draw()
     
     pygame.quit()
@@ -107,9 +77,6 @@ def main():
 # Ejecutar el programa principal
 if __name__ == "__main__":
     main()
-# Uso de ejemplo
-#puzzle = Puzzle_15()
-#print(puzzle.generate_puzzle())
-#puzzle.display()
+
 
 

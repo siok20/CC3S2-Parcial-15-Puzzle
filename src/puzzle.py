@@ -35,10 +35,6 @@ class puzzle:
             board.append(i)
             j += 1
 
-        print(board)
-        print(position)
-
-
         return board, position
     
     def set_board(self, new_board):
@@ -90,10 +86,18 @@ class puzzle:
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
 
-        print(self.board)
-        print(self.position)
+    def display_console(self):
+        '''
+        Escribe en la consola el estado del tablero
+        '''
+        print("="*20)
+        print("Tablero Actualizado")
+        for i in range(4):
+            for j in range(4):
+                print(f'{self.board[4*i+ j]}', end=" | ")
+            print()
 
-p = puzzle()
+        print("="*20)
+        
 
-p.move('up')
 
