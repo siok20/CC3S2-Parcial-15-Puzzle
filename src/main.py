@@ -22,8 +22,6 @@ pygame.display.set_caption("15 Puzzle Game")
 # Configurar fuente
 font = pygame.font.Font(None, 50)
 
-
-
 class Puzzle_GUI:
     def __init__(self):
         self.game = puzzle()
