@@ -34,7 +34,7 @@ class Puzzle_GUI:
             for col in range(BOARD_SIZE):
                 value = self.game.board[row*4 + col]   # se asigna el valor de cada casilla a value
                 
-                if value is not 0:  # excluir la casilla vacía
+                if value != 0:  # excluir la casilla vacía
                     # dibujar la casilla con el número
                     pygame.draw.rect(screen, CELL_COLOR, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
                     text = font.render(str(value), True, NUMBER_COLOR)
