@@ -1,4 +1,5 @@
 import random
+import time
 import pygame
 from puzzle import puzzle
 
@@ -69,6 +70,10 @@ def main():
                     puzzle.game.move("left")
                 
                 puzzle.game.display_console()
+
+                if puzzle.game.is_solved():
+                    time.sleep(100)
+                    running = False
         
         visualizer = puzzle.draw()
     

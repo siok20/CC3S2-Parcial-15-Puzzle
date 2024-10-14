@@ -2,10 +2,12 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY requirements.txt ./
+COPY requeriments.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requeriments.txt
 
-COPY . .
+COPY . ./
 
-CMD ["uvicorn","src.main:app","--host","0.0.0.0","--port","8000"]
+ENV DISPLAY=host.docker.internal:0.0
+
+CMD ["python", "src/main.py"]

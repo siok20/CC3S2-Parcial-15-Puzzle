@@ -1,4 +1,5 @@
 import random as rd
+import time
 
 class puzzle:
     '''
@@ -87,9 +88,6 @@ class puzzle:
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
 
-    def verify_move(self, curr_position, movement):
-        if (self.movement=='up'or self.movement=='down'):
-            return True
         
     def increase_move(self,movement):
         if self.verify_move(self.position, movement):
@@ -120,6 +118,38 @@ class puzzle:
 
         print("="*20)
         
+def main():
+    game = puzzle()
+    
+    game.display_console()
+    
+    #actualiza el tablero
+    running = True
+    while running:
+        print("Movimientos permitidos: up, down, left, right")
+        move = input("Ingrese movimiento o salir (quit): ")
+        if move.lower() == 'quit':
+            running = False
+        else:
+            if move.lower() == 'up':
+                game.move("up")
+            if move.lower() == 'down':
+                game.move("down")
+            if move.lower() == 'right':
+                game.move("right")
+            if move.lower() == 'left':
+                game.move("left")
+            
+            game.display_console()
 
+            if game.is_solved():
+                time.sleep(100)
+                running = False
+        
 
+    print("juego finalizado")
+    
+    
+if __name__ == "__main__":
+    main()
 
