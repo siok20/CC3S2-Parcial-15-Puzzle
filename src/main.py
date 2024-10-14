@@ -25,20 +25,15 @@ font = pygame.font.Font(None, 50)
 class Puzzle_15:
     def __init__(self):
         self.puzzle = puzzle()
-        self.board , self.position = self.generate_puzzle()
-        
-    def generate_puzzle(self):
-        numbers = list(range(1,16)) + [0]    #genera numeros del 1 al 15 y le añade uno vacio
-        random.shuffle(numbers)
-        board = []   # Almacena todas las cuadrículas
-        for i in range(4):  # Itera sobre las filas
-            row = []  # Crear una nueva fila vacía
-            for j in range(4):  # Itera sobre las columnas
-                if numbers[i * 4 + j] == 0:
-                    position = [i,j]
-                row.append(numbers[i * 4 + j])  # Añadir el número correspondiente
-            board.append(row)  # Añadir la fila a la cuadrícula
-            
+        self.board , self.position = self.generate_puzzle()                   
+    
+    def is_solvable(self, board, position):
+        list_cells = []
+        count_inversions = 0
+        for i in range(len(board)):
+            if (count_inversions + self.position[0])%2 != 0:
+                return True
+        return False
             
     def display(self):
         # Recorrer cada fila en la cuadrícula
@@ -57,14 +52,15 @@ class Puzzle_15:
 
 
 class Puzzle_GUI:
-    def __init__(self, board):
-        self.board = board
+    def __init__(self):
+        self.game = puzzle()
 
     def draw(self):
         screen.fill(BACKGROUND_COLOR)  # Se rellena  el fondo
         for row in range(BOARD_SIZE):   # recorre cada fila y columna
             for col in range(BOARD_SIZE):
-                value = self.board[row][col]    # se asigna el valor de cada casilla a value
+                value = self.game.board[row*4 + col]   # se asigna el valor de cada casilla a value
+                
                 if value is not 0:  # excluir la casilla vacía
                     # dibujar la casilla con el número
                     pygame.draw.rect(screen, CELL_COLOR, (col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE))
@@ -80,21 +76,31 @@ class Puzzle_GUI:
 
 def main():
     # Crear puzzle
-    puzzle = Puzzle_15()
+    puzzle = Puzzle_GUI()
     
     # Visualizar en consola
-    print("Visualización en consola:")
-    puzzle.display()
+    #print("Visualización en consola:")
+    #puzzle.display()
     
     # Visualización gráfica con pygame
-    visualizer = Puzzle_GUI(puzzle.board)
+    visualizer = puzzle.draw()
     
+    #actualiza el tablero
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        visualizer.draw()
+            elif event.type == pygame.KEYDOWN:
+                if event.KEY == pygame.K_UP:
+                    puzzle.game.move("up")
+                if event.KEY == pygame.K_DOWN:
+                    puzzle.game.move("down")
+                if event.KEY == pygame.K_RIGHT:
+                    puzzle.game.move("right")
+                if event.KEY == pygame.K_LEFT:
+                    puzzle.game.move("left")
+        visualizer = puzzle.draw()
     
     pygame.quit()
 
@@ -102,8 +108,8 @@ def main():
 if __name__ == "__main__":
     main()
 # Uso de ejemplo
-puzzle = Puzzle_15()
-print(puzzle.generate_puzzle())
+#puzzle = Puzzle_15()
+#print(puzzle.generate_puzzle())
 #puzzle.display()
 
 
