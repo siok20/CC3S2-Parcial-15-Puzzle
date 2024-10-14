@@ -96,11 +96,16 @@ class puzzle:
             self.cont_move+=1
 
     def is_solved(self):
-        solvedArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
+        for i in range(15):
+            if i + 1 != self.board[i]:
+                return False
+            
+        if self.board[15] != 0:
+            return False
         
-        currentArray = [cell for row in self.board for cell in row]
+        return True
 
-        return currentArray == solvedArray
+        
 
     def display_console(self):
         '''
