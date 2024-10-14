@@ -1,7 +1,21 @@
 # Juego de puzzles "15-Puzzle"
 
+# ¿Como correr el juego?
+
 ## Descripción:
-Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar las piezas numeradas en una cuadrícula.
+```bash
+git clone https://github.com/siok20/CC3S2-Parcial-15-Puzzle
+```
+
+Juego contenerizado en Docker
+
+```bash
+docker build -t game .
+```
+
+```bash
+docker run game 
+```
 
 ### Características clave:
 
