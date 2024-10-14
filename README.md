@@ -18,6 +18,10 @@ Añadiremos los tests durante el desarrollo
 git clone https://github.com/siok20/CC3S2-Parcial-15-Puzzle
 ```
 
+## Correr localmente con pygame
+```
+python src/main.py
+```
 Juego contenerizado en Docker
 
 ```bash
