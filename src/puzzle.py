@@ -30,11 +30,64 @@ class puzzle:
 
             if i == 0:
                 position = j
+
             Fboard.remove(i)
             board.append(i)
             j += 1
 
-        return board, position
-    
+        print(board)
+        print(position)
 
-        
+
+        return board, position
+
+    def move(self, direction):
+        '''
+        Logica de movimiento
+        obtiene una direccion y el juego cambia las posiciones
+        del elemento vacio y hacia donde se dirige
+
+        En caso de movimiento valido intercambia las posiciones 
+        en board
+        '''
+        row = self.position // 4
+        col = self.position % 4
+
+        if direction == 'up':
+            if row == 0: 
+                print("Movimiento invalido")
+                return
+
+            self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
+            self.position -=4
+
+        elif direction == 'down':
+            if row == 3: 
+                print("Movimiento invalido")
+                return
+            
+            self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
+            self.position +=4
+
+        elif direction =='left':
+            if col == 0:
+                print("Movimiento invalido")
+                return
+            
+            self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
+            self.position -= 1
+        elif direction == 'right':
+            if col == 3:
+                print("Movimiento invalido")
+                return
+            
+            self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
+            self.position += 1
+
+        print(self.board)
+        print(self.position)
+
+p = puzzle()
+
+p.move('up')
+
