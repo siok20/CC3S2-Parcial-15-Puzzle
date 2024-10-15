@@ -3,12 +3,12 @@ name: CI - Tests
 on:
   push:
     branches:
-      - main
       - develop
+      - feature/daniela
   pull_request:
     branches:
-      - main
       - develop
+      - feature/daniela
 
 jobs:
   test:
@@ -27,7 +27,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requeriments.txt
-        pip install behave pytest  # Asegúrate de que pytest y behave estén instalados
+        pip install behave pytest 
 
     - name: Run Unit Tests  #para pruwbas unitarias
       run: pytest tests/  
