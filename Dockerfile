@@ -10,4 +10,4 @@ COPY . ./
 
 ENV DISPLAY=host.docker.internal:0.0
 
-CMD ["python", "src/main.py"]
+CMD ["python", "src/puzzle.py"]

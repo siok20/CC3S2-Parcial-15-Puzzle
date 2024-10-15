@@ -104,6 +104,19 @@ def move(self, direction):
 
 Ejemplo aplicando el movimiento `'up'`
 
-![alt text](assets/Move.png)
+![](assets/Move.png)
+
+## Prometheus y Grafana
+Primero añadimos en requirements.txt el prometheus_client para que al construir y alzar el docker-compose se instale y podamos definir los contadores.
+
+![](assets/definiendo_metricas.png)  
+
+En el archivo prometheus.yml dentro de scrape_configs configuramos dos jobs, el mismo prometheus y otro job que apunta a game, el cuál es un servicio de docker-compose.yml que correrá el programa puzzle.py, este programa se podrá jugar en la terminal.
+
+![](assets/prometheus_yml.png)  
+
+Le decimos al docker-compose.yml que prometheus correrá en el puerto 9090 mientras que grafana en el 3000, además en volumes especificamos que se guarda la data para prometheus.
+
+![](assets/docker_compose.png)  
 
 

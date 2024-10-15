@@ -1,12 +1,29 @@
 import random as rd
 import time
+from prometheus_client import Counter, Gauge, start_http_server
+
+# Definimos las metricas
+total_operations = Counter(
+    'python_request_operations_total', 
+    'El número total de operaciones procesadas'
+)
+
+total_moves = Counter(
+    'game_moves_total', 
+    'El número total de movimientos'
+)
+
+average_move_time = Gauge(
+    'game_average_move_time_seconds', 
+    'Tiempo promedio por movimiento en segundos'
+)
 
 class puzzle:
     '''
     Clase que contiene la logica del juego
     y sus componentes internos
     '''
-    def __init__(self):
+    def __init__(self): 
         '''
         Constructor
         atributos: 
@@ -17,7 +34,6 @@ class puzzle:
             * position: indice donde se encuentra el elemento vacio
         '''
         self.board, self.position = self.generate_board_position()
-    
 
     def generate_board_position(self):
         '''
@@ -57,6 +73,8 @@ class puzzle:
         col = self.position % 4
         self.cont_move = 0
 
+        start_move_time = time.time() 
+
         if direction == 'up':
             if row == 0: 
                 print("Movimiento invalido")
@@ -64,6 +82,7 @@ class puzzle:
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
+            total_moves.inc() 
 
         elif direction == 'down':
             if row == 3: 
@@ -72,6 +91,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
+            total_moves.inc() 
 
         elif direction =='left':
             if col == 0:
@@ -80,6 +100,8 @@ class puzzle:
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
+            total_moves.inc() 
+            
         elif direction == 'right':
             if col == 3:
                 print("Movimiento invalido")
@@ -87,7 +109,10 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
-
+            total_moves.inc() 
+            
+        move_time = time.time() - start_move_time
+        average_move_time.set(move_time)
         
     def increase_move(self,movement):
         if self.verify_move(self.position, movement):
@@ -117,10 +142,12 @@ class puzzle:
             print()
 
         print("="*20)
-        
+
 def main():
+    start_http_server(8000)
+    global total_operations
+
     game = puzzle()
-    
     game.display_console()
     
     #actualiza el tablero
@@ -128,6 +155,8 @@ def main():
     while running:
         print("Movimientos permitidos: up, down, left, right")
         move = input("Ingrese movimiento o salir (quit): ")
+        total_operations.inc()
+
         if move.lower() == 'quit':
             running = False
         else:

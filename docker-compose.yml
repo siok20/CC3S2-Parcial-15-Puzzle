@@ -2,6 +2,31 @@ version: '3.8'
 services:
   game:
     build: .
-    command: python src/main.py
+    command: python src/puzzle.py
     volumes:
       - .:/app
+    ports:
+      - "8000:8000"  # Asegúrate de exponer el puerto del juego si es necesario
+    environment:
+      - DISPLAY=${DISPLAY}
+    network_mode: "host"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"  # Puerto de acceso a la interfaz web de Prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"  # Puerto de acceso a la interfaz web de Grafana
+    depends_on:
+      - prometheus  # Grafana debe esperar a que Prometheus esté disponible
+
+volumes:
+  prometheus_data: # Para que guarde los datos de prometheus
+  
