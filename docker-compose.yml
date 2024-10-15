@@ -30,6 +30,4 @@ services:
     depends_on:
       - prometheus  # Grafana debe esperar a que Prometheus esté disponible
 
-volumes:
-  prometheus_data: # Para que guarde los datos de prometheus
   

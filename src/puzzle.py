@@ -1,26 +1,5 @@
 import random as rd
 import time
-from prometheus_client import Counter, Gauge, push_to_gateway
-
-# Definimos las metricas
-total_operations = Counter(
-    'python_request_operations_total', 
-    'El número total de operaciones procesadas'
-)
-
-total_moves = Counter(
-    'game_moves_total', 
-    'El número total de movimientos'
-)
-
-average_move_time = Gauge(
-    'game_average_move_time_seconds', 
-    'Tiempo promedio por movimiento en segundos'
-)
-
-def registrar_movimiento(): #para hacer el push al gateway de prometheus e incrementar moves
-    total_moves.inc()
-    push_to_gateway('pushgateway:9091', job='game', registry=total_moves._registry)
 
 class puzzle:
     '''
@@ -86,7 +65,6 @@ class puzzle:
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
-            registrar_movimiento()
 
         elif direction == 'down':
             if row == 3: 
@@ -95,7 +73,6 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
-            registrar_movimiento()
 
         elif direction =='left':
             if col == 0:
@@ -104,7 +81,6 @@ class puzzle:
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
-            registrar_movimiento()
 
         elif direction == 'right':
             if col == 3:
@@ -113,10 +89,6 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
-            registrar_movimiento()
-            
-        move_time = time.time() - start_move_time
-        average_move_time.set(move_time)
         
     def increase_move(self,movement):
         if self.verify_move(self.position, movement):
@@ -148,8 +120,6 @@ class puzzle:
         print("="*20)
 
 def main():
-    global total_operations
-
     game = puzzle()
     game.display_console()
     
@@ -158,7 +128,6 @@ def main():
     while running:
         print("Movimientos permitidos: up, down, left, right")
         move = input("Ingrese movimiento o salir (quit): ")
-        total_operations.inc()
 
         if move.lower() == 'quit':
             running = False
