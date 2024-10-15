@@ -19,6 +19,16 @@ git clone https://github.com/siok20/CC3S2-Parcial-15-Puzzle
 ```
 
 ## Correr localmente con pygame
+Para correr localmente el programa, después de clonar el repositorio debemos crear un entorno virtual y activarlo.
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+Luego instalar el pygame:
+```
+pip install pygame
+```
+Ahora sí puedes correr el programa con:
 ```
 python src/main.py
 ```
@@ -39,14 +49,6 @@ docker run game
 • Movimiento de piezas con reglas.
 
 • Verificación de solución y conteo de movimientos.
-
-### Características clave:
-
-• Generación aleatoria de puzzles.
-
-• Movimiento de piezas con reglas específicas.
-
-• Verificación de la solución y conteo de movimientos.
 
 ## Puzzle.py
 ### Generar board
