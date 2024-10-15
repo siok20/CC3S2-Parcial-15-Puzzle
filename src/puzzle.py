@@ -1,6 +1,6 @@
 import random as rd
 import time
-from prometheus_client import Counter, Gauge, start_http_server
+from prometheus_client import Counter, Gauge, push_to_gateway
 
 # Definimos las metricas
 total_operations = Counter(
@@ -17,6 +17,10 @@ average_move_time = Gauge(
     'game_average_move_time_seconds', 
     'Tiempo promedio por movimiento en segundos'
 )
+
+def registrar_movimiento(): #para hacer el push al gateway de prometheus e incrementar moves
+    total_moves.inc()
+    push_to_gateway('pushgateway:9091', job='game', registry=total_moves._registry)
 
 class puzzle:
     '''
@@ -82,7 +86,7 @@ class puzzle:
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
-            total_moves.inc() 
+            registrar_movimiento()
 
         elif direction == 'down':
             if row == 3: 
@@ -91,7 +95,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
-            total_moves.inc() 
+            registrar_movimiento()
 
         elif direction =='left':
             if col == 0:
@@ -100,8 +104,8 @@ class puzzle:
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
-            total_moves.inc() 
-            
+            registrar_movimiento()
+
         elif direction == 'right':
             if col == 3:
                 print("Movimiento invalido")
@@ -109,7 +113,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
-            total_moves.inc() 
+            registrar_movimiento()
             
         move_time = time.time() - start_move_time
         average_move_time.set(move_time)
@@ -144,7 +148,6 @@ class puzzle:
         print("="*20)
 
 def main():
-    start_http_server(8000)
     global total_operations
 
     game = puzzle()

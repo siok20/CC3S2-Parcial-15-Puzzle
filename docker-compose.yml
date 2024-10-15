@@ -2,13 +2,11 @@ version: '3.8'
 services:
   game:
     build: .
-    command: python src/puzzle.py
+    command: python src/main.py
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"  # Asegúrate de exponer el puerto del juego si es necesario
     environment:
-      - DISPLAY=${DISPLAY}
+      - DISPLAY=:0  # Si usas X11 para Pygame localmente
     network_mode: "host"
 
   prometheus:
@@ -19,6 +17,11 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+
+  pushgateway:
+    image: prom/pushgateway
+    ports:
+      - "9091:9091"
 
   grafana:
     image: grafana/grafana

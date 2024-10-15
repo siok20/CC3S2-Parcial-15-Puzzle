@@ -57,24 +57,27 @@ def main():
     running = True
     while running:
         for event in pygame.event.get():
+            start_move_time = time.time() 
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    puzzle.game.move("up")
-                if event.key == pygame.K_DOWN:
-                    puzzle.game.move("down")
-                if event.key == pygame.K_RIGHT:
-                    puzzle.game.move("right")
-                if event.key == pygame.K_LEFT:
-                    puzzle.game.move("left")
-                
+                try:
+                    if event.key == pygame.K_UP:
+                        puzzle.game.move("up")
+                    elif event.key == pygame.K_DOWN:
+                        puzzle.game.move("down")
+                    elif event.key == pygame.K_RIGHT:
+                        puzzle.game.move("right")
+                    elif event.key == pygame.K_LEFT:
+                        puzzle.game.move("left")
+                except Exception as e:
+                    print(f"Ocurrió un error: {e}")
+
                 puzzle.game.display_console()
 
                 if puzzle.game.is_solved():
-                    time.sleep(100)
+                    print("¡Has resuelto el puzzle!")
                     running = False
-        
         visualizer = puzzle.draw()
     
     pygame.quit()
