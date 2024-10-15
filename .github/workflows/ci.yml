@@ -3,12 +3,12 @@ name: CI - Tests
 on:
   push:
     branches:
+      - main
       - develop
-      - feature/daniela
   pull_request:
     branches:
+      - main
       - develop
-      - feature/daniela
 
 jobs:
   test:
