@@ -60,7 +60,7 @@ class puzzle:
         if direction == 'up':
             if row == 0: 
                 print("Movimiento invalido")
-                return
+                return False
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
@@ -68,7 +68,7 @@ class puzzle:
         elif direction == 'down':
             if row == 3: 
                 print("Movimiento invalido")
-                return
+                return False
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
@@ -76,18 +76,18 @@ class puzzle:
         elif direction =='left':
             if col == 0:
                 print("Movimiento invalido")
-                return
+                return False
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
         elif direction == 'right':
             if col == 3:
                 print("Movimiento invalido")
-                return
+                return False
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
-
+        return True
         
     def increase_move(self,movement):
         if self.verify_move(self.position, movement):
