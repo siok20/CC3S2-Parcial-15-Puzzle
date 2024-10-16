@@ -377,3 +377,100 @@ Dentro del board para el primer sprint tuvimos algunos issues el cual se complet
 En este test creamos un board con un estado específico para atender a casos donde un movimiento sea inválido y otros válidos, por ejemplo si notamos el espacio vacío corresponde a la primera casilla, y el `game.cont_move=0` al hacer un movimiento hacia arriba debería seguir en 0 ya que no es movimiento válido, para el movimiento hacia abajo sí es válido así que se espera que el contador de movimiento de 1, luego para un movimiento a la izquierda el contador debería seguir dando uno porque no es válido, y por último para la derecha sí sería válido por eso se espera que sea 2.
 
 ![](assets/test_cont.png)
+
+## DevSecOps
+Instalamos las dependencias necesarias para el analisis
+
+´´´bash
+- name: DevSecOps
+    run: |
+        pip install safety bandit
+        bandit -r src/
+        safety check -r requeriments.txt
+´´´
+
+### Resultado con bandit: 
+Revisar el codigo
+Nos dice que hay un problema de encriptacion y seguridad por nuestro board
+
+Es solo una advertencia y es debido a la naturaleza de nuestra clase, Queremos que borad sea visible y aleatoria.
+
+```bash
+$ bandit -r src/
+[main]  INFO    profile include tests: None
+[main]  INFO    profile exclude tests: None
+[main]  INFO    cli include tests: None
+[main]  INFO    cli exclude tests: None
+[main]  INFO    running on Python 3.9
+Run started:2024-10-16 14:47:54.367416
+
+Test results:
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_calls.html#b311-random
+   Location: src/puzzle.py:39:20
+38                  while Fboard != []:
+39                      i = rd.choice(Fboard)
+40
+
+--------------------------------------------------
+
+Code scanned:
+        Total lines of code: 265
+        Total lines skipped (#nosec): 0
+
+Run metrics:
+        Total issues (by severity):
+                Undefined: 0
+                Low: 1
+                Medium: 0
+                High: 0
+        Total issues (by confidence):
+                Undefined: 0
+                Low: 0
+                Medium: 0
+                High: 1
+Files skipped (0):
+```
+
+### Resultado con safety:
+Revisar las dependencias que instalamos
+
+```bash
+$ safety check -r requeriments.txt
++==============================================================================================================================================================================================+
+
+                               /$$$$$$            /$$
+                              /$$__  $$          | $$
+           /$$$$$$$  /$$$$$$ | $$  \__//$$$$$$  /$$$$$$   /$$   /$$
+          /$$_____/ |____  $$| $$$$   /$$__  $$|_  $$_/  | $$  | $$
+         |  $$$$$$   /$$$$$$$| $$_/  | $$$$$$$$  | $$    | $$  | $$
+          \____  $$ /$$__  $$| $$    | $$_____/  | $$ /$$| $$  | $$
+          /$$$$$$$/|  $$$$$$$| $$    |  $$$$$$$  |  $$$$/|  $$$$$$$
+         |_______/  \_______/|__/     \_______/   \___/   \____  $$
+                                                          /$$  | $$
+                                                         |  $$$$$$/
+  by safetycli.com                                        \______/
+
++==============================================================================================================================================================================================+
+
+ REPORT
+
+  Safety v3.2.8 is scanning for Vulnerabilities...
+  Scanning dependencies in your files:
+
+  -> requeriments.txt
+
+  Using open-source vulnerability database
+  Found and scanned 10 packages
+  Timestamp 2024-10-16 09:52:12
+  0 vulnerabilities reported
+  0 vulnerabilities ignored
++==============================================================================================================================================================================================+
+
+ No known security vulnerabilities reported.
+
++==============================================================================================================================================================================================+
+
+```

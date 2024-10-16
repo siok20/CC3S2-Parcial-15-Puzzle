@@ -35,6 +35,12 @@ jobs:
     - name: Run Behave Tests  #para pruebas de comportamiento
       run: behave tests/features/ 
 
+    - name: DevSecOps
+      run: |
+          pip install safety bandit
+          bandit -r src/
+          safety check -r requeriments.txt
+
     - name: Check Docker and Docker Compose versions
       run: |
         docker --version
