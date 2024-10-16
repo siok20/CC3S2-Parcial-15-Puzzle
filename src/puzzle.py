@@ -6,7 +6,7 @@ class puzzle:
     Clase que contiene la logica del juego
     y sus componentes internos
     '''
-    def __init__(self):
+    def __init__(self): 
         '''
         Constructor
         atributos: 
@@ -16,8 +16,8 @@ class puzzle:
 
             * position: indice donde se encuentra el elemento vacio
         '''
+        self.cont_move = 0
         self.board, self.position = self.generate_board_position()
-    
 
     def generate_board_position(self):
         '''
@@ -55,7 +55,8 @@ class puzzle:
         '''
         row = self.position // 4
         col = self.position % 4
-        self.cont_move = 0
+        
+
 
         if direction == 'up':
             if row == 0: 
@@ -64,6 +65,7 @@ class puzzle:
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
+            self.cont_move+=1
 
         elif direction == 'down':
             if row == 3: 
@@ -72,6 +74,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
+            self.cont_move+=1
 
         elif direction =='left':
             if col == 0:
@@ -80,6 +83,8 @@ class puzzle:
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
+            self.cont_move+=1
+
         elif direction == 'right':
             if col == 3:
                 print("Movimiento invalido")
@@ -91,7 +96,10 @@ class puzzle:
         
     def increase_move(self,movement):
         if self.verify_move(self.position, movement):
+
             self.cont_move+=1
+        print(f"Total de movimientos: {self.cont_move}")
+        
 
     def is_solved(self):
         for i in range(15):
@@ -117,10 +125,9 @@ class puzzle:
             print()
 
         print("="*20)
-        
+
 def main():
     game = puzzle()
-    
     game.display_console()
     
     #actualiza el tablero
@@ -128,6 +135,7 @@ def main():
     while running:
         print("Movimientos permitidos: up, down, left, right")
         move = input("Ingrese movimiento o salir (quit): ")
+
         if move.lower() == 'quit':
             running = False
         else:
@@ -146,6 +154,7 @@ def main():
                 time.sleep(100)
                 running = False
         
+    print(f"Total de movimientos: {game.cont_move}")
 
     print("juego finalizado")
     
