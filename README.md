@@ -7,14 +7,19 @@ Carpeta con los archivos del juego
 
 #### main.py
 Contiene la visualización del juego con la librería pygame
-#### puzzle.py
-Contiene la lógica del juego
 
+#### puzzle.py
+Contiene la lógica del juego y la opción de jugarlo en consola
+Se asegura tambien de que cada tablero sea resoluble, lo que garantiza un fin adecuado
 ### tests/
-Añadiremos los tests durante el desarrollo
+Añadiremos los tests durante el desarrollo. Agregamos un archivo en `tests/` por cada funcionalidad a probar
 
 ## Descripción:
 Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar las piezas numeradas en una cuadrícula.
+
+### Interpretación:
+Manejamos los movimientos `up`, `down`, `left` y `right`.
+Consideramos que es la casilla en blanco la que se mueve en cualquiera de esas 4 direcciones.
 
 ### Características clave:
 
@@ -143,7 +148,6 @@ Ejemplo aplicando el movimiento `'up'`
 ## Prometheus y Grafana
 Primero añadimos en requirements.txt el prometheus_client para que al construir y alzar el docker-compose se instale y podamos definir los contadores.
 
-<<<<<<< HEAD
 ## Pruebas de comportamiento
 
 Para las pruebas de comportamiento utilizamos Gherkin con Behave, definimos los escenarios y luego traducimos los pasaos a lenguaje python.
@@ -241,7 +245,6 @@ jobs:
     - name: Run Behave Tests  
       run: behave tests/features/ 
 ```
-=======
 ![](assets/def_metrics.png)  
 
 En el archivo prometheus.yml dentro de scrape_configs configuramos un job, el cual sera pushgateway ya que luego apuntará al pushgateway de docker-compose
@@ -267,6 +270,26 @@ Luego realizamos movimientos en el puzzle y seleccionamos algunas métricas para
 ![](assets/grafica2.png)
 
 ## Dockerfile
+```
+FROM python:3.9-slim
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia el archivo de requisitos y instala las dependencias de Python
+COPY requeriments.txt .
+RUN pip install --no-cache-dir -r requeriments.txt
+
+# Copia el resto del código fuente
+COPY . ./
+
+# Comando por defecto para ejecutar el juego
+CMD ["python", "src/puzzle.py"]
+
+```
+
+
+### Usar pygame con Dockerfile
 Fue necesario cambiar el Dockerfile de acuerdo a las necesidades de nuestro proyecto.
 Y lo que nosotros necesitábamos era correr el programa con pygame dentro del contenedor, para ello se necesitaba instalar algunas librerías relacionadas con el sistema X11 de Linux.
 Luego de estos cambios se puede correr docker junto al juego con interfaz gráfica y ya no solo localmente con `python3 src/main.py`.
@@ -307,4 +330,3 @@ Dentro del board para el primer sprint tuvimos algunos issues el cual se complet
 ![](assets/board.png) 
 Uno de ellos era el sistema de verificación de soluciones, esta función ubicada en puzzle.py, lo que hace es comparar cada valor del board con los números desde el 1 hasta el 15, y por último verifica si la última posición, o sea, la 16 es 0, ya que ahí debe quedar el espacio que representa al vacío, si se cumple todo esto retornará True y se tomará como resuelto.
 ![](assets/is_solved.png)  
->>>>>>> feature/alejandro
