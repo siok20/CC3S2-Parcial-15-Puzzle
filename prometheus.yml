@@ -1,0 +1,21 @@
+global:
+<<<<<<< HEAD
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'python-app'
+    static_configs:
+      - targets: ['app:4000']  # Dirección del contenedor de la app Node.js
+  
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']
+=======
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: ['pushgateway:9091']
+>>>>>>> feature/alejandro
