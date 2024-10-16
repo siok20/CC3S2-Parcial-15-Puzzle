@@ -143,7 +143,6 @@ Ejemplo aplicando el movimiento `'up'`
 ## Prometheus y Grafana
 Primero añadimos en requirements.txt el prometheus_client para que al construir y alzar el docker-compose se instale y podamos definir los contadores.
 
-<<<<<<< HEAD
 ## Pruebas de comportamiento
 
 Para las pruebas de comportamiento utilizamos Gherkin con Behave, definimos los escenarios y luego traducimos los pasaos a lenguaje python.
@@ -241,7 +240,6 @@ jobs:
     - name: Run Behave Tests  
       run: behave tests/features/ 
 ```
-=======
 ![](assets/def_metrics.png)  
 
 En el archivo prometheus.yml dentro de scrape_configs configuramos un job, el cual sera pushgateway ya que luego apuntará al pushgateway de docker-compose
@@ -307,4 +305,3 @@ Dentro del board para el primer sprint tuvimos algunos issues el cual se complet
 ![](assets/board.png) 
 Uno de ellos era el sistema de verificación de soluciones, esta función ubicada en puzzle.py, lo que hace es comparar cada valor del board con los números desde el 1 hasta el 15, y por último verifica si la última posición, o sea, la 16 es 0, ya que ahí debe quedar el espacio que representa al vacío, si se cumple todo esto retornará True y se tomará como resuelto.
 ![](assets/is_solved.png)  
->>>>>>> feature/alejandro
