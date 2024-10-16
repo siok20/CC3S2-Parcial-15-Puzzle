@@ -36,7 +36,8 @@ class puzzle:
             board = []
             j = 0
             while Fboard != []:
-                i = rd.choice(Fboard)
+                #Indicamos que el orden aleatorio no es un fallo de seguridad
+                i = rd.choice(Fboard) # nosec
 
                 if i == 0:
                     position = j
