@@ -20,3 +20,13 @@ def test_move(play, board, position, direction, expected_board, expected_positio
 
     assert play.get_board() == expected_board
     assert play.position == expected_position
+
+
+@pytest.mark.parametrize("board, position", [
+    ([1, 2, 4, 8, 9, 0, 3, 12, 7, 11, 14, 10, 5, 13, 6, 15], 5),
+    ([3, 1, 6, 2, 5, 7, 15, 13, 4, 11, 8, 9, 14, 10, 12, 0], 15),
+    ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 13, 14, 15, 12], 11),
+    
+])
+def test_solvable(play, board, position):
+    assert play.is_solvable(board=board, position=position)
