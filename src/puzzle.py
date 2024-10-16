@@ -92,6 +92,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
+            self.cont_move+=1
         return True
         
     def increase_move(self,movement):
