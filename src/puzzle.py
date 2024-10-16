@@ -97,7 +97,7 @@ class puzzle:
 
         if direction == 'up':
             if row == 0: 
-                print("Movimiento invalido")
+                self.display_error()
                 return False
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
@@ -106,7 +106,7 @@ class puzzle:
 
         elif direction == 'down':
             if row == 3: 
-                print("Movimiento invalido")
+                self.display_error()
                 return False
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
@@ -115,7 +115,7 @@ class puzzle:
 
         elif direction =='left':
             if col == 0:
-                print("Movimiento invalido")
+                self.display_error()
                 return False
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
@@ -124,7 +124,7 @@ class puzzle:
 
         elif direction == 'right':
             if col == 3:
-                print("Movimiento invalido")
+                self.display_error()
                 return False
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
@@ -147,22 +147,39 @@ class puzzle:
         if self.board[15] != 0:
             return False
         
+        self.display_end()
+
         return True
 
-        
+    def display_error(self):
+        print("="*50)
+
+        print("#\t\t" + "-----ERROR----- "+ "\t" *2 + " #")
+        print("="*50)
+
+    def display_end(self):
+        print("="*50)
+
+        print("#\t\t" + "------FIN------ "+ "\t" *2 + " #")
+        print("="*50)
+
 
     def display_console(self):
         '''
         Escribe en la consola el estado del tablero
         '''
-        print("="*20)
-        print("Tablero Actualizado")
+        print("="*50)
+        print("#Tablero Actualizado" + "\t"*4 + " #")
+        print("#\t" + "-"*33 + "\t" + " #")
         for i in range(4):
+            print("#\t|",end=" ")
             for j in range(4):
-                print(f'{self.board[4*i+ j]}', end=" | ")
-            print()
+                print(f'{self.board[4*i+ j]}', end="\t| ")
+            print("\t #", end="\n")
+            print("#\t" + "-"*33 + "\t" + " #")
 
-        print("="*20)
+        print("="*50)
+        
 
 def main():
     game = puzzle()
@@ -194,7 +211,6 @@ def main():
         
     print(f"Total de movimientos: {game.cont_move}")
 
-    print("juego finalizado")
     
     
 if __name__ == "__main__":
