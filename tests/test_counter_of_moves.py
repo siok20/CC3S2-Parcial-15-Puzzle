@@ -4,10 +4,10 @@ def test_invalid_move_does_not_increment_counter():
 
     game = puzzle()
 
-    new_board = [0, 1, 2, 3,
-                 4, 5, 6, 7,
-                 8, 9, 10, 11,
-                 12, 13, 14, 15]
+    new_board = [0, 1, 2, 8,
+                 4, 7, 6, 5,
+                 3, 9, 11, 15,
+                 12, 13, 10, 14]
     game.set_board(new_board)
     game.position = 0 
 
