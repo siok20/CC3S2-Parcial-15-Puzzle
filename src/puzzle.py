@@ -16,6 +16,7 @@ class puzzle:
 
             * position: indice donde se encuentra el elemento vacio
         '''
+        self.cont_move = 0
         self.board, self.position = self.generate_board_position()
 
     def generate_board_position(self):
@@ -54,9 +55,8 @@ class puzzle:
         '''
         row = self.position // 4
         col = self.position % 4
-        self.cont_move = 0
+        
 
-        start_move_time = time.time() 
 
         if direction == 'up':
             if row == 0: 
@@ -65,6 +65,7 @@ class puzzle:
 
             self.board[self.position],self.board[self.position-4] = self.board[self.position-4],self.board[self.position] 
             self.position -=4
+            self.cont_move+=1
 
         elif direction == 'down':
             if row == 3: 
@@ -73,6 +74,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+4] = self.board[self.position+4],self.board[self.position] 
             self.position +=4
+            self.cont_move+=1
 
         elif direction =='left':
             if col == 0:
@@ -81,6 +83,7 @@ class puzzle:
             
             self.board[self.position],self.board[self.position-1] = self.board[self.position-1],self.board[self.position] 
             self.position -= 1
+            self.cont_move+=1
 
         elif direction == 'right':
             if col == 3:
@@ -89,10 +92,12 @@ class puzzle:
             
             self.board[self.position],self.board[self.position+1] = self.board[self.position+1],self.board[self.position] 
             self.position += 1
-        
-    def increase_move(self,movement):
-        if self.verify_move(self.position, movement):
             self.cont_move+=1
+        print(f"Total de movimientos: {self.cont_move}")
+        
+    # def increase_move(self,movement):
+    #     if self.verify_move(self.position, movement):
+    #         self.cont_move+=1
 
     def is_solved(self):
         for i in range(15):
@@ -147,6 +152,7 @@ def main():
                 time.sleep(100)
                 running = False
         
+    print(f"Total de movimientos: {game.cont_move}")
 
     print("juego finalizado")
     
