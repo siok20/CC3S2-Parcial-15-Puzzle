@@ -326,7 +326,21 @@ CMD ["python", "src/main.py"]
 ```
 ## Historias de usuario hechas
 
+
 Dentro del board para el primer sprint tuvimos algunos issues el cual se completaron.
 ![](assets/board.png) 
-Uno de ellos era el sistema de verificación de soluciones, esta función ubicada en puzzle.py, lo que hace es comparar cada valor del board con los números desde el 1 hasta el 15, y por último verifica si la última posición, o sea, la 16 es 0, ya que ahí debe quedar el espacio que representa al vacío, si se cumple todo esto retornará True y se tomará como resuelto.
+
+- Uno de ellos era el sistema de verificación de soluciones, esta función ubicada en puzzle.py, lo que hace es comparar cada valor del board con los números desde el 1 hasta el 15, y por último verifica si la última posición, o sea, la 16 es 0, ya que ahí debe quedar el espacio que representa al vacío, si se cumple todo esto retornará True y se tomará como resuelto.
+
+
 ![](assets/is_solved.png)  
+
+- Dentro de la clase Puzzle, ponemos un contador que se inicializa en 0 y se incrementará cuando hayan movimientos válidos los cuáles se filtrarán en la función move().
+
+![](assets/puzzle_counter.png)
+
+- Para esta implementación se creó un test para verificar que funcione correctamente:
+
+En este test creamos un board con un estado específico para atender a casos donde un movimiento sea inválido y otros válidos, por ejemplo si notamos el espacio vacío corresponde a la primera casilla, y el `game.cont_move=0` al hacer un movimiento hacia arriba debería seguir en 0 ya que no es movimiento válido, para el movimiento hacia abajo sí es válido así que se espera que el contador de movimiento de 1, luego para un movimiento a la izquierda el contador debería seguir dando uno porque no es válido, y por último para la derecha sí sería válido por eso se espera que sea 2.
+
+![](assets/test_cont.png)
