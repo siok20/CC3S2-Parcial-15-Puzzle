@@ -25,14 +25,20 @@ Para correr localmente el programa, después de clonar el repositorio debemos cr
 python3 -m venv venv
 source venv/bin/activate
 ```
-Luego instalar el pygame:
+Luego instalar las dependecias:
 ```
-pip install pygame
+pip install -r requeriments.txt
 ```
-Ahora sí puedes correr el programa con:
+Ahora sí puedes correr el programa con pygame:
 ```
 python src/main.py
 ```
+
+Ahora sí puedes correr el programa en consola:
+```
+python src/puzzle.py
+```
+
 Juego contenerizado en Docker
 
 ```bash
