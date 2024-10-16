@@ -169,8 +169,11 @@ class puzzle:
         Escribe en la consola el estado del tablero
         '''
         print("="*50)
-        print("#Tablero Actualizado" + "\t"*4 + " #")
+        print("#\tTablero Actualizado" + "\t"*3 + " #")
+        print("="*50)
+        print("#" + "\t"*6 + " #")
         print("#\t" + "-"*33 + "\t" + " #")
+
         for i in range(4):
             print("#\t|",end=" ")
             for j in range(4):
@@ -178,7 +181,13 @@ class puzzle:
             print("\t #", end="\n")
             print("#\t" + "-"*33 + "\t" + " #")
 
+        print("#" + "\t"*6 + " #")
         print("="*50)
+
+    def is_valid(self, input):
+        input = input.lower()
+
+        return input == 'up' or input == 'down' or input == 'left' or input == 'right'
         
 
 def main():
@@ -187,27 +196,35 @@ def main():
     
     #actualiza el tablero
     running = True
-    while running:
-        print("Movimientos permitidos: up, down, left, right")
-        move = input("Ingrese movimiento o salir (quit): ")
 
-        if move.lower() == 'quit':
-            running = False
-        else:
-            if move.lower() == 'up':
-                game.move("up")
-            if move.lower() == 'down':
-                game.move("down")
-            if move.lower() == 'right':
-                game.move("right")
-            if move.lower() == 'left':
-                game.move("left")
-            
-            game.display_console()
+    try:
+        while running:
+            print("Movimientos permitidos: up, down, left, right")
+            move = input("Ingrese movimiento o salir (quit): ")
 
-            if game.is_solved():
-                time.sleep(100)
+            if move.lower() == 'quit':
                 running = False
+            elif game.is_valid(move):
+                if move.lower() == 'up':
+                    game.move("up")
+                if move.lower() == 'down':
+                    game.move("down")
+                if move.lower() == 'right':
+                    game.move("right")
+                if move.lower() == 'left':
+                    game.move("left")
+                
+                game.display_console()
+
+                if game.is_solved():
+                    time.sleep(100)
+                    running = False
+            else:
+                game.display_error()
+                game.display_console()
+    except Exception as e:
+        print(e)
+        game.display_error()
         
     print(f"Total de movimientos: {game.cont_move}")
 
