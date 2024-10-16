@@ -7,14 +7,19 @@ Carpeta con los archivos del juego
 
 #### main.py
 Contiene la visualización del juego con la librería pygame
-#### puzzle.py
-Contiene la lógica del juego
 
+#### puzzle.py
+Contiene la lógica del juego y la opción de jugarlo en consola
+Se asegura tambien de que cada tablero sea resoluble, lo que garantiza un fin adecuado
 ### tests/
-Añadiremos los tests durante el desarrollo
+Añadiremos los tests durante el desarrollo. Agregamos un archivo en `tests/` por cada funcionalidad a probar
 
 ## Descripción:
 Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar las piezas numeradas en una cuadrícula.
+
+### Interpretación:
+Manejamos los movimientos `up`, `down`, `left` y `right`.
+Consideramos que es la casilla en blanco la que se mueve en cualquiera de esas 4 direcciones.
 
 ### Características clave:
 
@@ -265,6 +270,26 @@ Luego realizamos movimientos en el puzzle y seleccionamos algunas métricas para
 ![](assets/grafica2.png)
 
 ## Dockerfile
+```
+FROM python:3.9-slim
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia el archivo de requisitos y instala las dependencias de Python
+COPY requeriments.txt .
+RUN pip install --no-cache-dir -r requeriments.txt
+
+# Copia el resto del código fuente
+COPY . ./
+
+# Comando por defecto para ejecutar el juego
+CMD ["python", "src/puzzle.py"]
+
+```
+
+
+### Usar pygame con Dockerfile
 Fue necesario cambiar el Dockerfile de acuerdo a las necesidades de nuestro proyecto.
 Y lo que nosotros necesitábamos era correr el programa con pygame dentro del contenedor, para ello se necesitaba instalar algunas librerías relacionadas con el sistema X11 de Linux.
 Luego de estos cambios se puede correr docker junto al juego con interfaz gráfica y ya no solo localmente con `python3 src/main.py`.
