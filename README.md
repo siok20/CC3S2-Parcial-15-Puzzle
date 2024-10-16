@@ -35,7 +35,36 @@ Consiste en un juego de rompecabezas deslizante donde el jugador debe ordenar la
 
 ## Implementación de la interfaz gáfica del juego
 
-Para implementar la interfaz al juego primero se hizo la salida en consola luego se decidió usar la librería `pygame` con lo cual ya teniamos mayor facilidad para hacer los movimientos con las flechas del teclado
+En esta rama se implemento la visualizacion y generación del tablero para el juego. 
+Para implementar la interfaz al juego primero se hizo la salida en consola luego se decidió usar la librería `pygame` con lo cual ya teniamos mayor facilidad para hacer los movimientos con las flechas del teclado.
+
+Primera salida por consola 
+![](assets/console_initial.png)
+
+Salida luego de implementarlo con la libreria pygame
+![](assets/pygame.png)
+
+Tammbién se implemento los eventos para los movimeintos de las flechas en el teclado.
+
+```python
+for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    puzzle.game.move("up")
+                if event.key == pygame.K_DOWN:
+                    puzzle.game.move("down")
+                if event.key == pygame.K_RIGHT:
+                    puzzle.game.move("right")
+                if event.key == pygame.K_LEFT:
+                    puzzle.game.move("left")
+```
+
+Luego se decidio implementar la actualización de los movimientos en la consola usando la función display, esos cambios se realizaron en la rama `feature/eladio` ya que contenía la lógica de los movimientos con lo cual ya se podía tener el estado del tablero por cada movimiento.
+
+![](assets/console_gui.png)
+
 
 ## Pruebas de comportamiento
 
@@ -90,3 +119,47 @@ Debería obtener un resultado como este:
 
 ![](assets/behave_test.png)
 
+
+### Configuración del pipeline
+
+En el directorio `.github/workflows` se creo el archivo `ci.yml` que configura un pipeline de integración continua (CI) utilizando GitHub Actions. Este pipeline está diseñado para automatizar el proceso de pruebas.
+
+```yaml
+name: CI - Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+      - feature/daniela
+  pull_request:
+    branches:
+      - develop
+      - feature/daniela
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'  
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requeriments.txt
+        pip install behave pytest 
+
+    - name: Run Unit Tests  
+      run: pytest tests/  
+      
+
+    - name: Run Behave Tests  
+      run: behave tests/features/ 
+```
