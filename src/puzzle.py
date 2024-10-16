@@ -69,7 +69,7 @@ class puzzle:
                 if board[i]>board[t]:
                     inversions += 1
 
-        row = position//4
+        row = position//4 + 1
 
         return (inversions + row) % 2 !=0
 
